@@ -159,3 +159,16 @@ func TestDownloadableURL_FilePaths(t *testing.T) {
 		}
 	}
 }
+
+func TestScrubConfig(t *testing.T) {
+	type Local struct {
+		Foo string
+		Bar string
+	}
+	c := Local{"foo", "bar"}
+	expect := "Config: {Foo:foo Bar:<Filtered>}"
+	conf := ScrubConfig(c, c.Bar)
+	if conf != expect {
+		t.Fatalf("got %s, expected %s", conf, expect)
+	}
+}
